@@ -1,0 +1,17 @@
+22 serialization::archive 19 0 0 0 0 0 2 0 1 0
+0 1 0
+1 9 blue room 22 a room with blue walls 56 It has a nice navy colour, but it's painted very poorly. 0 0 3 0 4 room 9 blue room 22 a room with blue walls 0 0 1 0 0 0 0 8 10 LockedDoor 1 0
+2 1 0
+3 1 0
+4
+5 9 blue door 29 a blue door with a brass lock 62 The paint is flaking off the door. It looks sturdy and secure. 3 0 4 door 9 blue door 29 a blue door with a brass lock 1 1 33 The door is locked and wont budge 57 You have to jiggle it a bit but you unlock the blue door.
+6 9 brass key 18 a little brass key 35 The key looks like it opens a door. 3 0 3 key 9 brass key 18 a little brass key 0 0 1 0 11 5 Chest 1 0
+7
+8
+9 12 wooden chest 14 a wooden chest 66 The chest is steel bound and sturdy, but is not apparently locked. 3 0 5 chest 12 wooden chest 14 a wooden chest 0 0 1 0
+10 9 brass key 18 a little brass key 35 The key looks like it opens a door. 3 0 3 key 9 brass key 18 a little brass key 0 0 
+11
+12 8 red room 21 a room with red walls 88 I don't care for this shade of maroon, at least the painters did a better job this time. 3 0 4 room 8 red room 21 a room with red walls 1 0 2 7
+13
+14
+15 8 red door 23 a red door with no lock 57 Painted with tacky gloss red. Didn't even pay for a lock. 3 0 4 door 8 red door 23 a red door with no lock 0 0 0 0  0 0 0 0
