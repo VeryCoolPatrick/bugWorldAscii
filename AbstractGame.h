@@ -8,11 +8,11 @@
 
 class AbstractGame {
 private:
-    void oneWordCommand(std::string input);
-    void twoWordCommand(std::vector<std::string> input);
-    void threeWordCommand(std::vector<std::string> input);
+    std::string oneWordCommand(std::string input);
+    std::string twoWordCommand(std::vector<std::string> input);
+    std::string threeWordCommand(std::vector<std::string> input);
     
-    void checkInventory();
+    std::string checkInventory();
     
     //Getters
     std::string locationName();
@@ -29,8 +29,9 @@ public:
     AbstractGame(int startLocation = 0, std::vector<Room> world = {  });
     ~AbstractGame();
     AbstractGame(AbstractGame&) = delete; //Copy constructor disabled as it needs special implementation to prevent segfaults
-    void lookAround();
-    void command(std::vector<std::string> input);
+    std::string lookAround();
+    std::string command(std::vector<std::string> input);
+    std::string command(std::string input);
     std::vector<Thing> inventory();
     std::vector<int> powers();
     void location(int newLocation);

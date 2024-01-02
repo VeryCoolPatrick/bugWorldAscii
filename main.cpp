@@ -27,7 +27,7 @@ int main() {
     printImage("titleFile.txt");
     cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     AbstractGame *game {new TestGame};
-    game->lookAround();
+    cout << game->lookAround();
     bool run = true;
     while(run) {
         cout << "\n>";
@@ -48,11 +48,11 @@ int main() {
                     if(getYN()) saveGame(*game);
                     delete game;
                     game = new TestGame;
-                    game->lookAround();
+                    cout << game->lookAround();
                     continue;
             }
         }
-        game->command(input);
+        cout << game->command(input);
     }
     cout << "Save before quitting? (Y/N)\n>";
     if(getYN()) saveGame(*game);

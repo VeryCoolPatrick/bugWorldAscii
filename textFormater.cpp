@@ -1,4 +1,7 @@
 #include "textFormater.h"
+#include <iostream>
+#include <algorithm>
+#include <cstring>
 
 using std::string;
 using std::vector;

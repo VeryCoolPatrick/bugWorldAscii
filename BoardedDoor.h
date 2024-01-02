@@ -10,13 +10,13 @@ private:
     bool _locked;
     std::string _lockMessage;
     std::string _unLockMessage;
-    void breakDoor(AbstractGame &player);
+    std::string breakDoor(AbstractGame &player);
 public:
     BoardedDoor();
     BoardedDoor(std::string name, std::string descriptionShort, std::string descriptionLong, int destination,
                 std::string lockMessage, std::string unlockMessage, std::vector<std::string> dictionary = {});
-    void command(AbstractGame &player, std::string verb, std::string noun = "");
-    void walk(AbstractGame &player);
+    std::string command(AbstractGame &player, std::string verb, std::string noun = "");
+    std::string walk(AbstractGame &player);
 };
 
 

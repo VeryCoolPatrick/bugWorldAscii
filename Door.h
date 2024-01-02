@@ -11,8 +11,8 @@ private:
 public:
     Door();
     Door(std::string name, std::string descriptionShort, std::string descriptionLong, int destination, std::vector<std::string> dictionary = {});
-    void command(AbstractGame &player, std::string verb, std::string noun = "");
-    virtual void walk(AbstractGame &player);
+    std::string command(AbstractGame &player, std::string verb, std::string noun = "");
+    std::string walk(AbstractGame &player);
     int destination();
     
     template<class Archive>

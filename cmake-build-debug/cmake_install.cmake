@@ -1,4 +1,4 @@
-# Install script for directory: /Users/patrickculmer/CLionProjects/bugWorldAscii
+# Install script for directory: /Users/patrickculmer/Projects/CLionProjects/bugWorldAscii
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/Users/patrickculmer/CLionProjects/bugWorldAscii/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/Users/patrickculmer/Projects/CLionProjects/bugWorldAscii/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

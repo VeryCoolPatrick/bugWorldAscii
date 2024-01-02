@@ -17,26 +17,23 @@ Door::Door(string name, string descriptionShort, string descriptionLong, int des
 //Getters
 int Door::destination() { return _destination; }
 
-void Door::command(AbstractGame &player, std::string verb, std::string noun) {
+string Door::command(AbstractGame &player, std::string verb, std::string noun) {
     if(noun.empty()) {
         switch(VERB.find(verb)->second) {
             case WALK:
             case OPEN:
             case USE:
-                walk(player);
-                return;
+                return walk(player);
             case UNLOCK:
-                std::cout << capitalise(descriptionShort()) << " is not locked!\n";
-                return;
+                return capitalise(descriptionShort()) + " is not locked!\n";
         }
     }
-    Furniture::command(player, verb, noun);
+    return Furniture::command(player, verb, noun);
 }
 
-void Door::walk(AbstractGame &player) {
+string Door::walk(AbstractGame &player) {
     player.location(_destination);
-    std::cout<<"You walk through the " << name() << ".\n";
-    player.lookAround();
+    return + "You walk through the " + name() + ".\n" + player.lookAround();
 }
 
 template<class Archive>

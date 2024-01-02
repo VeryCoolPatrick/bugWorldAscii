@@ -8,15 +8,15 @@
 #include <boost/serialization/vector.hpp>
 
 using std::cout;
+using std::string;
 
-void BoardedDoor::breakDoor(AbstractGame &player) {
+string BoardedDoor::breakDoor(AbstractGame &player) {
     auto powers {player.powers()};
     if(!std::count(powers.begin(), powers.end(), MANTIS_ARMS)) {
-        cout << _lockMessage << "\n";
-        return;
+        return _lockMessage + "\n";
     }
     _locked = false;
-    cout << _unLockMessage << "\n";
+    return _unLockMessage + "\n";
 }
 
 BoardedDoor::BoardedDoor() {  }
@@ -26,28 +26,25 @@ BoardedDoor::BoardedDoor(std::string name, std::string descriptionShort, std::st
     Door(name, descriptionShort, descriptionLong, destination, dictionary),
     _lockMessage(lockMessage), _unLockMessage(unlockMessage), _locked(true) {  }
     
-void BoardedDoor::command(AbstractGame &player, std::string verb, std::string noun) {
+string BoardedDoor::command(AbstractGame &player, std::string verb, std::string noun) {
     if(!_locked) {
-        Door::command(player, verb, noun);
-        return;
+        return Door::command(player, verb, noun);
     }
     if(noun.empty()) {
         switch(VERB.find(verb)->second) {
             case OPEN:
             case UNLOCK:
-                cout << _lockMessage << "\n";
-                return;
+                return _lockMessage + "\n";
             case ATTACK:
-                breakDoor(player);
+                return breakDoor(player);
         }
     }
-    Door::command(player, verb, noun);
+    return Door::command(player, verb, noun);
 }
 
-void BoardedDoor::walk(AbstractGame &player) {
+string BoardedDoor::walk(AbstractGame &player) {
     if(!_locked) {
-        Door::walk(player);
-        return;
+        return Door::walk(player);
     }
-    cout << _lockMessage << "\n";
+    return _lockMessage + "\n";
 }

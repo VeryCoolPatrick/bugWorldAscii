@@ -11,18 +11,17 @@
 
 using std::cout;
 
-void LockedDoor::unlock(AbstractGame &player, std::string item) {
+std::string LockedDoor::unlock(AbstractGame &player, std::string item) {
     for(Thing i : player.inventory()) {
         auto iDic {i.dictionary()};
         if(std::count(iDic.begin(), iDic.end(), item) == 0) continue;
         if(i == _key) {
-            cout << _unLockMessage << "\n";
             _locked = false;
             player.removeItem(_key);
-            return;
+            return _unLockMessage + "\n";;
         }
     }
-    cout << capitalise(item) << " does not open the " << name();
+    return capitalise(item) + " does not open the " + name();
 }
 
 LockedDoor::LockedDoor() {  }
@@ -32,41 +31,39 @@ LockedDoor::LockedDoor(std::string name, std::string descriptionShort, std::stri
     Door(name, descriptionShort, descriptionLong, destination, dictionary),
     _key(key), _lockMessage(lockMessage), _unLockMessage(unlockMessage), _locked(true) {  }
 
-void LockedDoor::command(AbstractGame &player, std::string verb, std::string noun) {
+std::string LockedDoor::command(AbstractGame &player, std::string verb, std::string noun) {
     if(!_locked) {
-        Door::command(player, verb, noun);
-        return;
+        return Door::command(player, verb, noun);
     }
     if(noun.empty()) {
         switch(VERB.find(verb)->second) {
+            case WALK:
+                return walk(player);
             case OPEN:
-                cout << _lockMessage << "\n";
-                return;
+                return _lockMessage + "\n";
             case UNLOCK:
-                cout << "With what?\n>";
-                auto input {inputCommandReady()};
-                if(input.size() == 1) unlock(player, input[0]);
-                else player.command(input);
-                return;
+                return"With what?\n>";
+                // auto input {inputCommandReady()};    //TODO: Fix this, should have back and forth
+                // if(input.size() == 1) unlock(player, input[0]);
+                // else player.command(input);
+                // return;
         }
     } else {
         switch(VERB.find(verb)->second) {
             case OPEN:
             case UNLOCK:
             case USE:
-                unlock(player, noun);
-                return;
+                return unlock(player, noun);
         }
     }
-    Door::command(player, verb, noun);
+    return Door::command(player, verb, noun);
 }
 
-void LockedDoor::walk(AbstractGame &player) {
+std::string LockedDoor::walk(AbstractGame &player) {
     if(_locked) {
-        cout << "The " << name() << " is locked.\n";
-        return;
+        return "The " + name() + " is locked.\n";
     }
-    Door::walk(player);
+    return Door::walk(player);
 }
 
 template<class Archive>

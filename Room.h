@@ -17,7 +17,7 @@ private:
     std::string _imageFile;
 public:
     Room();
-    Room(std::string name, std::string descriptionShort, std::string descriptionLong, std::vector<std::string> dictionary = {}, std::map<int, Door*> exits = {}, std::string imageFile = {});
+    Room(std::string name, std::string descriptionShort, std::string descriptionLong, std::vector<std::string> dictionary = {}, std::map<int, Door*> exits = {}, std::string imageFile = "");
     void deletePointers();
     void exit(int direction, Door *newDoor);
     void furniture(Furniture *newFurniture);

@@ -2,7 +2,7 @@
 #define BUGWORLDASCII_TEXTFORMATER_H
 
 
-#include <iostream>
+#include <string>
 #include <vector>
 #include "gameDictionary.h"
 

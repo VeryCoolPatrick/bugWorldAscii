@@ -13,20 +13,19 @@ using std::cout;
 using std::string;
 using std::vector;
 
-void Chest::take(AbstractGame &player, std::string noun) {
+string Chest::take(AbstractGame &player, std::string noun) {
     if(!_open) {
-        cout << "You haven't looked in " << descriptionShort() << " yet.\n";
-        return;
+        return "You haven't looked in " + descriptionShort() + " yet.\n";
     }
     for(size_t i {0}; i < _contents.size(); i++) {
         auto descDic {_contents[i].dictionary()};
         if(find(descDic.begin(), descDic.end(), noun) == descDic.end()) continue;
-        cout << "you take the " << _contents[i].name() << " from the " << name() << ".\n";
+        string message = "you take the " + _contents[i].name() + " from the " + name() + ".\n";
         player.inventory(_contents[i]);
         _contents.erase(_contents.begin() + i);
-        return;
+        return message;
     }
-    cout << "You can't find " << noun << ".\n";
+    return "You can't find " + noun + ".\n";
 }
 
 Chest::Chest() {  }
@@ -37,12 +36,13 @@ Chest::Chest(string name, string descriptionShort, string descriptionLong, vecto
 //Setters
 void Chest::contents(Thing item) { _contents.push_back(item); }
 
-void Chest::printDescription() {
-    cout << capitalise(descriptionShort()) <<".\n";
-    if(!_open || _contents.empty()) return;
-    cout << "The " << name() << " holds:\n";
+string Chest::printDescription() {
+    string message = capitalise(descriptionShort()) + ".\n";
+    if(!_open || _contents.empty()) return message;
+    message += "The " + name() + " holds:\n";
     for(auto i : _contents)
-        cout << string(4, ' ') << capitalise(i.descriptionShort()) << ".\n";
+        message += string(4, ' ') + capitalise(i.descriptionShort()) + ".\n";
+    return message;
 }
 
 vector<string> Chest::contentsDictionary() {
@@ -53,32 +53,31 @@ vector<string> Chest::contentsDictionary() {
     return contentsDictionary;
 }
 
-void Chest::command(AbstractGame &player, string verb, string noun) {
+string Chest::command(AbstractGame &player, string verb, string noun) {
     if(noun.empty()) {
+        string message;
         switch(VERB.find(verb)->second) {
             case OPEN:
-                if(_open) cout << capitalise(descriptionShort()) << " is not closed.\n";
-                else cout << "You open the " << name() << ".\n";
+                if(_open) message += capitalise(descriptionShort()) + " is not closed.\n";
+                else message += "You open the " + name() + ".\n";
             case LOOK:
-                _open=true;
-                cout << descriptionLong() <<"\n";
-                if(_contents.empty()) return;
-                cout << "The " << name() << " holds:\n";
+                _open = true;
+                message += descriptionLong() + "\n";
+                if(_contents.empty()) return message;
+                message += "The " + name() + " holds:\n";
                 for(auto i : _contents)
-                    cout << string(4, ' ') << capitalise(i.descriptionShort()) << ".\n";
-                return;
+                    message += string(4, ' ') + capitalise(i.descriptionShort()) + ".\n";
+                return message;
             case UNLOCK:
-                cout << "The " << name() << " is not locked.\n";
-                return;
+                return "The " + name() + " is not locked.\n";
         }
     } else {
         switch(VERB.find(verb)->second) {
             case TAKE:
-                take(player, noun);
-                return;
+                return take(player, noun);
         }
     }
-    Furniture::command(player,verb,noun);
+    return Furniture::command(player,verb,noun);
 }
 
 template<class Archive>

@@ -16,22 +16,21 @@ Furniture::Furniture() {  }
 Furniture::Furniture(string name, string descriptionShort, string descriptionLong, vector<string> dictionary) :
         Thing(name, descriptionShort, descriptionLong, dictionary) {  }
 
-void Furniture::printDescription() { cout << descriptionShort() << ".\n"; }
+string Furniture::printDescription() {  return descriptionShort() + ".\n"; }
 
 //Used for chests and other containers
 vector<string> Furniture::contentsDictionary() { return {}; }
 
 //Sole interface for child objects
-void Furniture::command(AbstractGame &player, string verb, string noun) {
+string Furniture::command(AbstractGame &player, string verb, string noun) {
     if(noun.empty()) {
         switch(VERB.find(verb)->second) {
             case LOOK:
-                cout << descriptionLong() << '\n';
-                return;
+                return descriptionLong() + '\n';
         }
     }
     
-    cout << "You cant do that to " << name() << ".\n";
+    return "You cant do that to " + name() + ".\n";
 }
 
 template<class Archive>

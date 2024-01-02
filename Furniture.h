@@ -13,9 +13,9 @@ class Furniture: public Thing {
 public:
     Furniture();
     Furniture(std::string name, std::string descriptionShort, std::string descriptionLong, std::vector<std::string> dictionary = {});
-    virtual void printDescription();
+    virtual std::string printDescription();
     virtual std::vector<std::string> contentsDictionary();
-    virtual void command(AbstractGame &player, std::string verb, std::string noun = "");
+    virtual std::string command(AbstractGame &player, std::string verb, std::string noun = "");
     
     template<class Archive>
     void serialize(Archive &ar, const unsigned int version);

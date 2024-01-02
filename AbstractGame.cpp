@@ -13,152 +13,133 @@ using std::cout;
 using std::string;
 using std::vector;
 
-void AbstractGame::oneWordCommand(string input) {
+std::string AbstractGame::oneWordCommand(string input) {
     if(NOUN_DIRECTION.count(input)) {
         if(!_world[_location].exitMap().count(NOUN_DIRECTION.find(input)->second)) {
-            cout << "There is nothing in that direction\n";
-            return;
+            return "There is nothing in that direction\n";
         }
-        _world[_location].exitMap()[NOUN_DIRECTION.find(input)->second]->walk(*this);
-        return;
+        return _world[_location].exitMap()[NOUN_DIRECTION.find(input)->second]->walk(*this);
     }
     
     switch(NOUN.find(input)->second) {
         case PLAYER:
         case INVENTORY:
-            checkInventory();
-            return;
+            return checkInventory();
         case ROOM:
-            lookAround();
-            return;
+            return lookAround();
     }
     
     switch(VERB.find(input)->second) {
         case LOOK:
-            lookAround();
-            return;
+            return lookAround();
     }
-    cout << "I dont know that one.\n";
+    return "I dont know that one.\n";
 }
 
-void AbstractGame::twoWordCommand(vector<string> input) {
+std::string AbstractGame::twoWordCommand(vector<string> input) {
     if(NOUN_DIRECTION.count(input[1])) { //Find doors by direction
         auto exits {_world[_location].exitMap()};
         if(exits.count(NOUN_DIRECTION.find(input[1])->second) == 0) {
-            cout << "There is nothing in that direction.\n";
-            return;
+            return "There is nothing in that direction.\n";
         }
-        exits[NOUN_DIRECTION.find(input[1])->second]->command(*this, input[0]);
-        return;
+        return exits[NOUN_DIRECTION.find(input[1])->second]->command(*this, input[0]);
     }
     
     for(auto i : _world[_location].exitMap()) { //Find doors by name
         auto iDic {i.second->dictionary()};
         if(std::count(iDic.begin(), iDic.end(), input[1])) {
-            i.second->command(*this, input[0]);
-            return;
+            return i.second->command(*this, input[0]);
         }
     }
     
     for(auto i : _world[_location].furnitureList()) { //Find furniture by name
         auto iDic {i->dictionary()};
         if(std::count(iDic.begin(), iDic.end(), input[1])) {
-            i->command(*this, input[0]);
-            return;
+            return i->command(*this, input[0]);
         }
         iDic = i->contentsDictionary(); //Find furniture by contents
         if(std::count(iDic.begin(), iDic.end(), input[1])) {
-            i->command(*this, input[0], input[1]);
-            return;
+            return i->command(*this, input[0], input[1]);
         }
         
     }
     
-    cout << "Whoops, I can't find " << input[1] << ".\n";
+    return "Whoops, I can't find " + input[1] + ".\n";
 }
 
-void AbstractGame::threeWordCommand(vector<string> input) {
+std::string AbstractGame::threeWordCommand(vector<string> input) {
     if(NOUN_DIRECTION.find(input[1]) != NOUN_DIRECTION.end()) { //Find doors by direction
         auto exits {_world[_location].exitMap()};
         if(exits.find(NOUN_DIRECTION.find(input[1])->second) == exits.end()) {
-            cout << "There is nothing in that direction.\n";
-            return;
+            return "There is nothing in that direction.\n";
         }
-        exits[NOUN_DIRECTION.find(input[1])->second]->command(*this, input[0], input[2]);
-        return;
+        return exits[NOUN_DIRECTION.find(input[1])->second]->command(*this, input[0], input[2]);
     }
     
     if(NOUN_DIRECTION.find(input[2]) != NOUN_DIRECTION.end()) { //Find doors by direction
         auto exits {_world[_location].exitMap()};
         if(exits.find(NOUN_DIRECTION.find(input[2])->second) == exits.end()) {
-            cout << "There is nothing in that direction.\n";
-            return;
+            return "There is nothing in that direction.\n";
         }
-        exits[NOUN_DIRECTION.find(input[1])->second]->command(*this, input[0], input[1]);
-        return;
+        return exits[NOUN_DIRECTION.find(input[1])->second]->command(*this, input[0], input[1]);
     }
     
     for(auto i : _world[_location].exitMap()) { //Find doors by name
         auto iDic {i.second->dictionary()};
         if(std::find(iDic.begin(), iDic.end(), input[1]) != iDic.end()) {
-            i.second->command(*this, input[0], input[2]);
-            return;
+            return i.second->command(*this, input[0], input[2]);
         }
         if(std::find(iDic.begin(), iDic.end(), input[2]) != iDic.end()) {
-            i.second->command(*this, input[0], input[1]);
-            return;
+            return i.second->command(*this, input[0], input[1]);
         }
     }
     
     for(auto i : _world[_location].furnitureList()) { //Find furniture by name
         auto iDic {i->dictionary()};
         if(std::find(iDic.begin(), iDic.end(), input[1]) != iDic.end()) {
-            i->command(*this, input[0], input[2]);
-            return;
+            return i->command(*this, input[0], input[2]);
         }
         if(std::find(iDic.begin(), iDic.end(), input[2]) != iDic.end()) {
-            i->command(*this, input[0], input[1]);
-            return;
+            return i->command(*this, input[0], input[1]);
         }
     }
-    cout << "Whoops, I can't find " << input[1] << " or " << input[2] << ".\n";
+    return "Whoops, I can't find " + input[1] + " or " + input[2] + ".\n";
 }
 
-void AbstractGame::checkInventory() {
+string AbstractGame::checkInventory() {
     if(_inventory.empty()) {
-        cout << "You don't have any items in your inventory.\n";
-        return;
+        return "You don't have any items in your inventory.\n";
     }
-    cout << "In your inventory you have:\n";
-    for(auto i : _inventory) cout << string(4,' ') << i.descriptionShort() << "\n";
+    string response = "In your inventory you have:\n";
+    for(auto i : _inventory) response += string(4,' ') + i.descriptionShort() + "\n";
+    return response;
 }
 
 //Getters
 string AbstractGame::locationName() { return _world[_location].name(); }
 string AbstractGame::locationDescriptionShort() { return _world[_location].descriptionShort(); }
 
-void AbstractGame::command(vector<string> input) {
+string AbstractGame::command(vector<string> input) {
     if(input.empty()) {
-        cout << "You have to type something!\n";
-        return;
+        return "You have to type something!\n";
     }
     if(input.size() == 1) {
-        oneWordCommand(input[0]);
-        return;
+        return oneWordCommand(input[0]);
     }
     if(VERB.count(input[0]) == 0) {
-        cout << "I can't find the verb in your sentence.\n";
-        return;
+        return "I can't find the verb in your sentence.\n";
     }
     switch(input.size()) {
         case 2 :
-            twoWordCommand(input);
-            return;
+            return twoWordCommand(input);
         case 3 :
-            threeWordCommand(input);
-            return;
+            return threeWordCommand(input);
     }
-    cout << "Command too long. Try something a bit less complicated\n";
+    return "Command too long. Try something a bit less complicated\n";
+}
+std::string AbstractGame::command(std::string input) {
+    vector<string> formatedInput = formatLine(input);
+    return command(formatedInput);
 }
 
 AbstractGame::AbstractGame(int startLocation, vector<Room> world) :
@@ -167,16 +148,17 @@ AbstractGame::AbstractGame(int startLocation, vector<Room> world) :
 AbstractGame::~AbstractGame() { for(auto room : _world) room.deletePointers(); }
 
 //Prints the long description of the room, and short for doors and furniture
-void AbstractGame::lookAround() {
-    printImage(_world[_location].imageFile());
-    cout << "You are in the " << _world[_location].name() << ".\n"
-         << _world[_location].descriptionLong() << "\n";
+string AbstractGame::lookAround() {
+    // printImage(_world[_location].imageFile()); //Not used anymore
+    string message = "You are in the " + _world[_location].name() + ".\n"
+                   + _world[_location].descriptionLong() + "\n";
     for(auto i : _world[_location].exitMap())
-        cout << "To the " << DIRECTION_NAME.find(i.first)->second << " there is " << i.second->descriptionShort() << ".\n";
-    if(_world[_location].furnitureList().empty()) return;
-    cout << "In the room you see:\n";
+        message += "To the " + DIRECTION_NAME.find(i.first)->second + " there is " + i.second->descriptionShort() + ".\n";
+    if(_world[_location].furnitureList().empty()) return message;
+    message += "In the room you see:\n";
     for(auto i : _world[_location].furnitureList())
-        i->printDescription();
+        message += i->printDescription();
+    return message;
 }
 
 //Getters
