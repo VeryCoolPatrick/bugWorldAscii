@@ -41,6 +41,9 @@ public:
     
     template<class Archive>
     void serialize(Archive &ar, const unsigned int version);
+
+    std::string save();
+    void load(std::string saveFile);
 };
 
 #endif //BUGWORLDASCII_ABSTRACTGAME_H

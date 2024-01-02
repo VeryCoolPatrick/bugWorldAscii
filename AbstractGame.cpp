@@ -1,6 +1,8 @@
 #include "AbstractGame.h"
 #include <algorithm>
 #include <fstream>
+#include <sstream>
+
 #include "gameDictionary.h"
 #include "printImage.h"
 
@@ -174,6 +176,18 @@ void AbstractGame::removeItem(Thing item) {
     auto itemIt {std::find(_inventory.begin(), _inventory.end(), item)};
     if(itemIt != _inventory.end())
         _inventory.erase(itemIt);
+}
+std::string AbstractGame::save() {
+    std::stringstream ss;
+    boost::archive::text_oarchive serialOut(ss);
+    serialOut << *this;
+    return ss.str();
+}
+
+void AbstractGame::load(std::string save) {
+    std::stringstream ss(save);
+    boost::archive::text_iarchive serialIn(ss);
+    serialIn >> *this;
 }
 
 template<class Archive>
