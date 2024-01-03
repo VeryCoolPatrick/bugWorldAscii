@@ -42,7 +42,7 @@ std::string LockedDoor::command(AbstractGame &player, std::string verb, std::str
             case OPEN:
                 return _lockMessage + "\n";
             case UNLOCK:
-                return"With what?\n>";
+                return"With what?\n";
                 // auto input {inputCommandReady()};    //TODO: Fix this, should have back and forth
                 // if(input.size() == 1) unlock(player, input[0]);
                 // else player.command(input);
