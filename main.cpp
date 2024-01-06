@@ -27,6 +27,7 @@ int main() {
     printImage("titleFile.txt");
     cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     AbstractGame *game {new TestGame};
+
     cout << game->lookAround();
     bool run = true;
     while(run) {

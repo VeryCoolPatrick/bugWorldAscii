@@ -26,9 +26,8 @@ protected:
     //_word must be set by child constructor
     std::vector<Room> _world;
 public:
-    AbstractGame(int startLocation = 0, std::vector<Room> world = {  });
-    ~AbstractGame();
-    AbstractGame(AbstractGame&) = delete; //Copy constructor disabled as it needs special implementation to prevent segfaults
+    AbstractGame(int startLocation = 0, std::vector<Room> world = {});
+    // AbstractGame(AbstractGame&) = delete; //Copy constructor disabled as it needs special implementation to prevent segfaults FIXED
     std::string lookAround();
     std::string command(std::vector<std::string> input);
     std::string command(std::string input);

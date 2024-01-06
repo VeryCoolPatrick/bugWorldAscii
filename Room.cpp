@@ -19,7 +19,22 @@ Room::Room() {  }
 
 Room::Room(string name, string descriptionShort, string descriptionLong, vector<string> dictionary, map<int, Door*> exits, string imageFile) :
         Thing(name, descriptionShort, descriptionLong, dictionary), _exits(exits), _imageFile(imageFile) {  }
-        
+Room::~Room() { deletePointers(); }
+Room::Room(const Room &other) : Thing(other) {
+    _imageFile = other._imageFile;
+
+    // Deep copy of _exits
+    for (const auto &pair : other._exits) {
+        _exits[pair.first] = new Door(*pair.second);
+    }
+
+    // Deep copy of _furnitureList
+    for (const auto &furniture : other._furnitureList) {
+        _furnitureList.push_back(new Furniture(*furniture));
+    }
+}
+
+
 //Used in AbstractGame Destructor
 void Room::deletePointers() {
     for(auto door : _exits) delete door.second;

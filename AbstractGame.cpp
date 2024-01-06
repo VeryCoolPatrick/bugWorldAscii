@@ -147,8 +147,6 @@ std::string AbstractGame::command(std::string input) {
 AbstractGame::AbstractGame(int startLocation, vector<Room> world) :
         _world(world), _location(startLocation) {  }
 
-AbstractGame::~AbstractGame() { for(auto room : _world) room.deletePointers(); }
-
 //Prints the long description of the room, and short for doors and furniture
 string AbstractGame::lookAround() {
     // printImage(_world[_location].imageFile()); //Not used anymore

@@ -18,6 +18,8 @@ private:
 public:
     Room();
     Room(std::string name, std::string descriptionShort, std::string descriptionLong, std::vector<std::string> dictionary = {}, std::map<int, Door*> exits = {}, std::string imageFile = "");
+    ~Room();
+    Room(const Room &other);
     void deletePointers();
     void exit(int direction, Door *newDoor);
     void furniture(Furniture *newFurniture);
