@@ -17,6 +17,8 @@ public:
                 std::string lockMessage, std::string unlockMessage, std::vector<std::string> dictionary = {});
     std::string command(AbstractGame &player, std::string verb, std::string noun = "");
     std::string walk(AbstractGame &player);
+    Furniture* clone();
+    Door* cloneDoor();
 };
 
 

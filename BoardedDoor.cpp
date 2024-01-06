@@ -48,3 +48,6 @@ string BoardedDoor::walk(AbstractGame &player) {
     }
     return _lockMessage + "\n";
 }
+
+Furniture* BoardedDoor::clone() { return new BoardedDoor(*this); }
+Door* BoardedDoor::cloneDoor() { return new BoardedDoor(*this); }

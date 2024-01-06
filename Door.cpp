@@ -17,6 +17,10 @@ Door::Door(string name, string descriptionShort, string descriptionLong, int des
 //Getters
 int Door::destination() { return _destination; }
 
+
+Furniture* Door::clone() { return new Door(*this); }
+Door* Door::cloneDoor() { return new Door(*this);}
+
 string Door::command(AbstractGame &player, std::string verb, std::string noun) {
     if(noun.empty()) {
         switch(VERB.find(verb)->second) {

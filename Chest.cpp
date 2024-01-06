@@ -80,6 +80,8 @@ string Chest::command(AbstractGame &player, string verb, string noun) {
     return Furniture::command(player,verb,noun);
 }
 
+Furniture* Chest::clone() { return new Chest(*this); }
+
 template<class Archive>
 void Chest::serialize(Archive &ar, const unsigned int version) {
     ar & boost::serialization::base_object<Furniture>(*this);

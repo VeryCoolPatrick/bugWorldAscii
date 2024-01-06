@@ -65,6 +65,8 @@ std::string LockedDoor::walk(AbstractGame &player) {
     }
     return Door::walk(player);
 }
+Furniture* LockedDoor::clone() { return new LockedDoor(*this); }
+Door* LockedDoor::cloneDoor() { return new LockedDoor(*this);}
 
 template<class Archive>
 void LockedDoor::serialize(Archive &ar, const unsigned int version) {

@@ -32,6 +32,7 @@ string Furniture::command(AbstractGame &player, string verb, string noun) {
     
     return "You cant do that to " + name() + ".\n";
 }
+Furniture* Furniture::clone() {  return new Furniture(*this); }
 
 template<class Archive>
 void Furniture::serialize(Archive &ar, const unsigned int version) {

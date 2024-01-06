@@ -16,8 +16,10 @@ public:
     LockedDoor();
     LockedDoor(std::string name, std::string descriptionShort, std::string descriptionLong, int destination,
                Thing key, std::string lockMessage, std::string unlockMessage, std::vector<std::string> dictionary = {});
-    std::string command(AbstractGame &player, std::string verb, std::string noun = "");
-    std::string walk(AbstractGame &player);
+    std::string command(AbstractGame &player, std::string verb, std::string noun = "") override;
+    std::string walk(AbstractGame &player) override;
+    Furniture* clone() override;
+    Door* cloneDoor() override;
     
     template<class Archive>
     void serialize(Archive &ar, const unsigned int version);

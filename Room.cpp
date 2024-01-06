@@ -24,13 +24,13 @@ Room::Room(const Room &other) : Thing(other) {
     _imageFile = other._imageFile;
 
     // Deep copy of _exits
-    for (const auto &pair : other._exits) {
-        _exits[pair.first] = new Door(*pair.second);
+    for (const auto &[direction, door] : other._exits) {
+        _exits[direction] = door->cloneDoor();
     }
 
     // Deep copy of _furnitureList
     for (const auto &furniture : other._furnitureList) {
-        _furnitureList.push_back(new Furniture(*furniture));
+        _furnitureList.push_back(furniture->clone());
     }
 }
 

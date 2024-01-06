@@ -11,9 +11,11 @@ private:
 public:
     Door();
     Door(std::string name, std::string descriptionShort, std::string descriptionLong, int destination, std::vector<std::string> dictionary = {});
-    std::string command(AbstractGame &player, std::string verb, std::string noun = "");
-    std::string walk(AbstractGame &player);
+    virtual std::string command(AbstractGame &player, std::string verb, std::string noun = "");
+    virtual std::string walk(AbstractGame &player);
     int destination();
+    virtual Furniture* clone();
+    virtual Door* cloneDoor();
     
     template<class Archive>
     void serialize(Archive &ar, const unsigned int version);

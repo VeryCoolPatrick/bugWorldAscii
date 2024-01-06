@@ -16,6 +16,7 @@ public:
     virtual std::string printDescription();
     virtual std::vector<std::string> contentsDictionary();
     virtual std::string command(AbstractGame &player, std::string verb, std::string noun = "");
+    virtual Furniture* clone();
     
     template<class Archive>
     void serialize(Archive &ar, const unsigned int version);
